@@ -3,12 +3,17 @@ using MovieStore.Models.Entities;
 
 namespace MovieStore.Data.Repositories;
 
-public interface IRepositoryBase <T> where T: class,IEntityBase,new()
+public interface IRepositoryBase <TEntity>
 {
-  IQueryable<T> FindAll(bool trackChanges);
-  IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression,
+  IQueryable<TEntity> FindAll(bool trackChanges);
+  IQueryable<TEntity> FindByCondition(Expression<Func<TEntity, bool>> expression,
   bool trackChanges);
-  void Create(T entity);
-  void Update(T entity);
-  void Delete(T entity);
+  Task Create(TEntity entity);
+  void Update(TEntity entity);
+  void Delete(TEntity entity);
+
+  Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges);
+  Task<TEntity?> GetByIdAsync(int id, bool trackChanges);
+  Task CreateEntity(TEntity entity);
+  void DeleteAsync(TEntity entity);
 }

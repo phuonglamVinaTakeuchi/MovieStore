@@ -2,6 +2,7 @@
 
 namespace MovieStore.Data.Repositories;
 
-public interface IActorRepository : IRepositoryBase<Actor>
+public interface IMovieCategoryRepository : IRepositoryBase<MovieCategory>
 {
+  
 }

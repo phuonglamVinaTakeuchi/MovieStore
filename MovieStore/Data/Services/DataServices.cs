@@ -1,18 +1,38 @@
-﻿using MovieStore.Data.Repositories;
+﻿using System.Reflection;
+using System.Reflection.Emit;
+using AutoMapper;
+using MovieStore.Data.Repositories;
+using MovieStore.Models.Exceptions;
 
 namespace MovieStore.Data.Services
 {
   public class DataServices : IDataServices
   {
-    private readonly Lazy<IActorService> _orderService;
-    
-    public IActorService ActorService => _orderService.Value;
+    private readonly Lazy<IActorService> _actorService;
+    public readonly Lazy<IMovieCategoryService>  _movieCategoryService;
 
 
-    public DataServices(IRepositoryManager repositoryManager)
+    public IActorService ActorService => _actorService.Value;
+    public IMovieCategoryService MovieCategoryService => _movieCategoryService.Value;
+
+    public DataServices(IRepositoryManager repositoryManager, IMapper mapper)
     {
-      _orderService = new Lazy<IActorService>(() => new
-        ActorService(repositoryManager));
+      _actorService = new Lazy<IActorService>(() => new
+        ActorService(repositoryManager,mapper));
+      _movieCategoryService = new Lazy<IMovieCategoryService>(()=>new
+        MovieCategoryService(repositoryManager,mapper));
+    }
+
+    public TService? GetService<TService,TRepository,TEntity>() where TService : IServiceBase<TEntity>
+    {
+      var serviceType = typeof(TService);
+
+      return serviceType.Name switch
+      {
+        nameof(IActorService) => (TService)ActorService,
+        nameof(IMovieCategoryService) => (TService)MovieCategoryService,
+        _ => throw new ArgumentOutOfRangeException(nameof(serviceType))
+      };
     }
   }
 }

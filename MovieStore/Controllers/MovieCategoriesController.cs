@@ -1,21 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using MovieStore.Data;
+﻿using MovieStore.Data.Repositories;
+using MovieStore.Data.Services;
+using MovieStore.Models.Entities;
 
 namespace MovieStore.Controllers
 {
-  public class MovieCategoriesController : Controller
+  public class MovieCategoriesController : MovieStoreControllerBase<IMovieCategoryService,IMovieCategoryRepository,MovieCategory>
   {
-    private readonly AppDbContext _dbContext;
-    public MovieCategoriesController(AppDbContext appDbContext)
+    
+    public MovieCategoriesController(IDataServices dataServices) : base(dataServices)
     {
-      _dbContext = appDbContext;
-    }
-    public async Task<IActionResult> Index()
-    {
-      var movieCategories = await _dbContext.MovieCategories.ToListAsync();
-      return View(movieCategories);
+     
     }
   }
 }

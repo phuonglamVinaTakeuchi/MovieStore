@@ -4,32 +4,42 @@ using MovieStore.Models.Entities;
 
 namespace MovieStore.Data.Repositories;
 
-public class RepositoryBase<T> : IRepositoryBase<T> where T: class,IEntityBase,new()
+public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class, IEntityBase
 {
-  private readonly AppDbContext _dbContext;
-
-  protected AppDbContext DbContext => _dbContext;
+  protected AppDbContext DbContext { get; }
 
   public RepositoryBase(AppDbContext dbContext)
-          => _dbContext = dbContext;
-  public IQueryable<T> FindAll(bool trackChanges) =>
+          => DbContext = dbContext;
+  public IQueryable<TEntity> FindAll(bool trackChanges) =>
       !trackChanges ?
-        DbContext.Set<T>()
+        DbContext.Set<TEntity>()
           .AsNoTracking() :
-        DbContext.Set<T>();
+        DbContext.Set<TEntity>();
 
-  public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression,
+  public IQueryable<TEntity> FindByCondition(Expression<Func<TEntity, bool>> expression,
     bool trackChanges) =>
     !trackChanges ?
-      DbContext.Set<T>()
+      DbContext.Set<TEntity>()
         .Where(expression)
         .AsNoTracking() :
-      DbContext.Set<T>()
+      DbContext.Set<TEntity>()
         .Where(expression);
 
-  public void Create(T entity) => DbContext.Set<T>().Add(entity);
+  public async Task Create(TEntity entity) => await DbContext.Set<TEntity>().AddAsync(entity);
 
-  public void Update(T entity) => DbContext.Set<T>().Update(entity);
+  public void Update(TEntity entity) => DbContext.Set<TEntity>().Update(entity);
 
-  public void Delete(T entity) => DbContext.Set<T>().Remove(entity);
+  public void Delete(TEntity entity) => DbContext.Set<TEntity>().Remove(entity);
+
+  public async Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges) => await
+    FindAll(trackChanges)
+      .ToListAsync();
+
+  public async Task<TEntity?> GetByIdAsync(int id, bool trackChanges) => await
+    FindByCondition(a => a.Id == id, trackChanges)
+      .SingleOrDefaultAsync();
+
+  public async Task CreateEntity(TEntity entity) => await Create(entity);
+
+  public void DeleteAsync(TEntity entity) => Delete(entity);
 }
