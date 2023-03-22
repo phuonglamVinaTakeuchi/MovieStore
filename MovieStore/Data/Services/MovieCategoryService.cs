@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using MovieStore.Data.Repositories;
 using MovieStore.Models.Entities;
+using MovieStore.Models.ViewModels;
 
-namespace MovieStore.Data.Services
+namespace MovieStore.Data.Services;
+
+public class MovieCategoryService : ServiceBase<IMovieCategoryRepository, MovieCategoryViewModel, MovieCategory>, IMovieCategoryService
 {
-  public class MovieCategoryService : ServiceBase<IMovieCategoryRepository,MovieCategory>,IMovieCategoryService
+  public MovieCategoryService(IRepositoryManager repository, IMapper mapper) : base(repository, mapper)
   {
-    public MovieCategoryService(IRepositoryManager repositoryManager, IMapper mapper) : base(repositoryManager, mapper)
-    {
-    }
-
   }
 }

@@ -4,7 +4,8 @@ using MovieStore.Models.Entities;
 
 namespace MovieStore.Data.Repositories;
 
-public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class, IEntityBase
+public class RepositoryBase<TEntity> : IRepositoryBase<TEntity>
+  where TEntity : class, IEntityBase
 {
   protected AppDbContext DbContext { get; }
 

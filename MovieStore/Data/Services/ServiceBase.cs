@@ -5,9 +5,9 @@ using MovieStore.Models.Exceptions;
 
 namespace MovieStore.Data.Services
 {
-  public abstract class ServiceBase <TRepository,TEntity> : IServiceBase<TEntity>
-    where TRepository : IRepositoryBase<TEntity>
-    where TEntity : class,IEntityBase,new()
+  public abstract class ServiceBase <TRepository,TEntityViewModel,TEntity> : IServiceBase<TEntityViewModel>
+    where TRepository: IRepositoryBase<TEntity>
+    where TEntity: class,IEntityBase
   {
     private readonly IRepositoryManager _repositoryManager;
     private readonly IMapper _mapper; 
@@ -19,26 +19,36 @@ namespace MovieStore.Data.Services
       _repositoryManager = repositoryManager;
       _mapper = mapper;
     }
-    public async Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges)
+    public async Task<IEnumerable<TEntityViewModel>> GetAllAsync(bool trackChanges)
     {
       var repository = RepositoryManager.GetRepository<TRepository,TEntity>();
-      return await repository.GetAllAsync(trackChanges);
+      var entities = await repository.GetAllAsync(trackChanges);
+      var entityViewModels = _mapper.Map<IEnumerable<TEntityViewModel>>(source: entities);
+
+      return entityViewModels;
     }
 
-    public async Task<TEntity?> GetByIdAsync(int id, bool trackChanges)
+    public async Task<TEntityViewModel?> GetByIdAsync(int id, bool trackChanges)
     {
       var repository = RepositoryManager.GetRepository<TRepository,TEntity>();
-      return await repository.GetByIdAsync(id,trackChanges);
+      var entity = await repository.GetByIdAsync(id,trackChanges);
+      var entityViewModel = _mapper.Map<TEntityViewModel>(source:entity);
+
+      return entityViewModel;
+
     }
 
-    public async Task AddAsync(TEntity entity)
+    public async Task AddAsync(TEntityViewModel entityForCreation)
     {
       var repository = RepositoryManager.GetRepository<TRepository, TEntity>();
+
+      var entity = _mapper.Map<TEntity>(source:entityForCreation);
+
       await repository.CreateEntity(entity);
       await _repositoryManager.SaveAsync();
     }
 
-    public async Task UpdateAsync(int id, TEntity entityForUpdate)
+    public async Task UpdateAsync(int id, TEntityViewModel entityForUpdate)
     {
       var entity = await GetEntityAndCheckIfItExist(id, true);
 
@@ -55,7 +65,7 @@ namespace MovieStore.Data.Services
 
       if (entity is null)
       {
-        throw NotFoundExceptionFactory.Create<TEntity>(id);
+        throw NotFoundExceptionFactory.Create<TEntityViewModel>(id);
       }
 
       return entity;

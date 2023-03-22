@@ -1,8 +1,5 @@
-﻿using System.Reflection;
-using System.Reflection.Emit;
-using AutoMapper;
+﻿using AutoMapper;
 using MovieStore.Data.Repositories;
-using MovieStore.Models.Exceptions;
 
 namespace MovieStore.Data.Services
 {
@@ -23,7 +20,7 @@ namespace MovieStore.Data.Services
         MovieCategoryService(repositoryManager,mapper));
     }
 
-    public TService? GetService<TService,TRepository,TEntity>() where TService : IServiceBase<TEntity>
+    public TService GetService<TService,TRepository,TEntity>() where TService : IServiceBase<TEntity>
     {
       var serviceType = typeof(TService);
 

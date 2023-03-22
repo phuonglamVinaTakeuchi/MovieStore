@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MovieStore.Models.Entities;
+using MovieStore.Models.ViewModels;
 
 namespace MovieStore
 {
@@ -7,7 +8,7 @@ namespace MovieStore
   {
     public MappingProfile()
     {
-      CreateMap<Actor, Actor>();
+      CreateMap<Actor, ActorViewModel>().ReverseMap();
     }
   }
 }

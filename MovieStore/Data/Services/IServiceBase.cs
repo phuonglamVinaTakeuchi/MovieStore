@@ -1,11 +1,11 @@
 ﻿namespace MovieStore.Data.Services;
 
-public interface IServiceBase<TEntity>
+public interface IServiceBase<TEntityViewModel>
 {
-  Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges);
-  Task<TEntity?> GetByIdAsync(int id, bool trackChanges);
-  Task AddAsync(TEntity actor);
-  Task UpdateAsync(int id, TEntity newActor);
+  Task<IEnumerable<TEntityViewModel>> GetAllAsync(bool trackChanges);
+  Task<TEntityViewModel?> GetByIdAsync(int id, bool trackChanges);
+  Task AddAsync(TEntityViewModel actor);
+  Task UpdateAsync(int id, TEntityViewModel newActor);
   Task DeleteAsync(int id);
 
 }

@@ -3,7 +3,7 @@ using MovieStore.Data.Services;
 
 namespace MovieStore.Controllers
 {
-  public abstract class MovieStoreControllerBase<TService,TRepository,TEntity> : Controller where TService: IServiceBase<TEntity>
+  public abstract class MovieStoreControllerBase<TService,TRepository,TEntityViewModel> : Controller where TService: IServiceBase<TEntityViewModel>
   {
     private readonly IDataServices _dataServices;
 
@@ -16,14 +16,14 @@ namespace MovieStore.Controllers
 
     public async Task<IActionResult> Index()
     {
-      var service = DataServices.GetService<TService, TRepository, TEntity>();
+      var service = DataServices.GetService<TService, TRepository, TEntityViewModel>();
       var entities = await service?.GetAllAsync(false)!;
       return View(entities);
     }
 
     public async Task<IActionResult> Detail(int id)
     {
-      var service = DataServices.GetService<TService, TRepository, TEntity>();
+      var service = DataServices.GetService<TService, TRepository, TEntityViewModel>();
 
       var entity = await service?.GetByIdAsync(id, false)!;
 
@@ -34,7 +34,7 @@ namespace MovieStore.Controllers
 
     public async Task<IActionResult> Edit(int id)
     {
-      var service = DataServices.GetService<TService,TRepository, TEntity>();
+      var service = DataServices.GetService<TService,TRepository, TEntityViewModel>();
 
       var entity = await service?.GetByIdAsync(id, false)!;
 
@@ -46,9 +46,9 @@ namespace MovieStore.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(int id, TEntity editedEntity)
+    public async Task<IActionResult> Edit(int id, TEntityViewModel editedEntity)
     {
-      var service = DataServices.GetService<TService, TRepository, TEntity>();
+      var service = DataServices.GetService<TService, TRepository, TEntityViewModel>();
 
       await service?.UpdateAsync(id, editedEntity)!;
 
@@ -61,7 +61,7 @@ namespace MovieStore.Controllers
 
     public async Task<IActionResult> Delete(int id)
     {
-      var service = DataServices.GetService<TService, TRepository, TEntity>();
+      var service = DataServices.GetService<TService, TRepository, TEntityViewModel>();
 
       var entity = await service?.GetByIdAsync(id, false)!;
 
@@ -75,7 +75,7 @@ namespace MovieStore.Controllers
     [HttpPost, ActionName("Delete")]
     public async Task<IActionResult> DeleteConfirm(int id)
     {
-      var service = DataServices.GetService<TService, TRepository, TEntity>();
+      var service = DataServices.GetService<TService, TRepository, TEntityViewModel>();
       await service?.DeleteAsync(id)!;
       return RedirectToAction("Index");
     }
@@ -90,11 +90,11 @@ namespace MovieStore.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([Bind] TEntity entity)
+    public async Task<IActionResult> Create([Bind] TEntityViewModel entity)
     {
       if (ModelState.IsValid)
       {
-        var service = DataServices.GetService<TService, TRepository, TEntity>();
+        var service = DataServices.GetService<TService, TRepository, TEntityViewModel>();
 
         await service?.AddAsync(entity)!;
       }
