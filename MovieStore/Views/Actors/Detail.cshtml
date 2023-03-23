@@ -3,13 +3,13 @@
 *@
 @model MovieStore.Models.ViewModels.ActorViewModel
 @{
-  ViewData["Title"] = "Detail a new actor";
+  ViewData["Title"] = "Actor detail information";
 }
 
 <div class="row">
   <div class="col-md-8 offset-2">
     <p>
-      <h1>Actor information</h1>
+      <h1>ViewData["Title"]</h1>
     </p>
     <div class="row">
       <div class="col-md-8 offset-2">
@@ -29,7 +29,7 @@
           <input asp-for="Bio" class="form-control" readonly/>
         </div>
         <div class="mb-3">
-          <a class="btn btn-outline-success float-end" asp-controller="Actors" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+          <a class="btn btn-outline-success float-end" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
           <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
         </div>
       </div>

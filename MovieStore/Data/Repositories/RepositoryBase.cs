@@ -9,7 +9,7 @@ public class RepositoryBase<TEntity> : IRepositoryBase<TEntity>
 {
   protected AppDbContext DbContext { get; }
 
-  public RepositoryBase(AppDbContext dbContext)
+  protected RepositoryBase(AppDbContext dbContext)
           => DbContext = dbContext;
   public IQueryable<TEntity> FindAll(bool trackChanges) =>
       !trackChanges ?
@@ -32,11 +32,11 @@ public class RepositoryBase<TEntity> : IRepositoryBase<TEntity>
 
   public void Delete(TEntity entity) => DbContext.Set<TEntity>().Remove(entity);
 
-  public async Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges) => await
+  public virtual async Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges) => await
     FindAll(trackChanges)
       .ToListAsync();
 
-  public async Task<TEntity?> GetByIdAsync(int id, bool trackChanges) => await
+  public virtual async Task<TEntity?> GetByIdAsync(int id, bool trackChanges) => await
     FindByCondition(a => a.Id == id, trackChanges)
       .SingleOrDefaultAsync();
 

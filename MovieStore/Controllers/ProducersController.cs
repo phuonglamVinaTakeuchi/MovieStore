@@ -1,20 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MovieStore.Data;
+﻿using MovieStore.Data.Repositories;
+using MovieStore.Data.Services;
+using MovieStore.Models.ViewModels;
 
 namespace MovieStore.Controllers
 {
-  public class ProducersController : Controller
+  public class ProducersController : MovieStoreControllerBase<IProducerService,IProducerRepository,ProducerViewModel>
   {
-    private readonly AppDbContext _dbContext;
-    public ProducersController(AppDbContext dbContext)
+    public ProducersController(IDataServices dataServices) : base(dataServices)
     {
-      _dbContext = dbContext;
-    }
-    public async Task<IActionResult> Index()
-    {
-      var producers = await _dbContext.Producers.ToListAsync();
-      return View(producers);
+      
     }
   }
 }

@@ -7,7 +7,6 @@ namespace MovieStore.Controllers
 {
   public class MovieCategoriesController : MovieStoreControllerBase<IMovieCategoryService,IMovieCategoryRepository,MovieCategoryViewModel>
   {
-    
     public MovieCategoriesController(IDataServices dataServices) : base(dataServices)
     {
      

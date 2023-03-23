@@ -1,20 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MovieStore.Data;
+﻿using MovieStore.Data.Repositories;
+using MovieStore.Data.Services;
+using MovieStore.Models.ViewModels;
 
 namespace MovieStore.Controllers
 {
-  public class CinemasController : Controller
+  public class CinemasController : MovieStoreControllerBase<ICinemaService,ICinemaRepository,CinemaViewModel>
   {
-    private readonly AppDbContext _appDbContext;
-    public CinemasController(AppDbContext appDbAppDbContext)
+    public CinemasController(IDataServices dataServices) : base(dataServices)
     {
-      _appDbContext = appDbAppDbContext;
-    }
-    public async Task<IActionResult> Index()
-    {
-      var allCinemas =  await _appDbContext.Cinemas.ToListAsync();
-      return View(allCinemas);
     }
   }
 }
