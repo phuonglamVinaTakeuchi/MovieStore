@@ -1,9 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model MovieStore.Models.ViewModels.ActorViewModel
+@model MovieStore.Models.ViewModels.CinemaViewModel
 @{
-  ViewData["Title"] = "Edit an actor";
+  ViewData["Title"] = "Edit an cinema";
 }
 
 <div class="row">
@@ -16,22 +16,22 @@
         <form asp-action="Edit">
           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
           <div class="mb-3 text-center">
-            <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
+            <img id="LogoPreview" class="border-info rounded-circle" style="max-width: 150px" />
           </div>
           <div class="mb-3">
-            <label asp-for="ProfilePictureUrl" class="form-label"></label>
-            <input asp-for="ProfilePictureUrl" class="form-control" />
-            <span asp-validation-for="ProfilePictureUrl" class="text-danger"></span>
+            <label asp-for="Logo" class="form-label"></label>
+            <input asp-for="Logo" class="form-control" />
+            <span asp-validation-for="Logo" class="text-danger"></span>
           </div>
           <div class="mb-3">
-            <label asp-for="FullName" class="form-label"></label>
-            <input asp-for="FullName" class="form-control" />
-            <span asp-validation-for="FullName" class="text-danger"></span>
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
           </div>
           <div class="mb-3">
-            <label asp-for="Bio" class="form-label"></label>
-            <input asp-for="Bio" class="form-control" />
-            <span asp-validation-for="Bio" class="text-danger"></span>
+            <label asp-for="Description" class="form-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
           </div>
           <div class="mb-3">
             <input type="submit" value="Save" class="btn btn-outline-success float-end" />
@@ -51,12 +51,12 @@
 
   <script>
     $(document).ready(function () {
-      const output = document.getElementById('ProfilePicturePreview');
-      output.src = $("#ProfilePictureUrl").val();
+      const output = document.getElementById('LogoPreview');
+      output.src = $("#Logo").val();
     }
     )
-    $("#ProfilePictureUrl").on("change", function () {
-      const output = document.getElementById('ProfilePicturePreview');
+    $("#Logo").on("change", function () {
+      const output = document.getElementById('LogoPreview');
       output.src = $(this).val();
     })
 
