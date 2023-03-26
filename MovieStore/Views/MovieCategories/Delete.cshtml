@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model MovieStore.Models.ViewModels.MovieCategoryViewModel
+@{
+  ViewData["Title"] = "Confirm delete an MovieCategory";
+}
+
+<div class="row">
+  <div class="col-md-8 offset-2">
+    <p>
+      <h1>@ViewData["Title"]</h1>
+    </p>
+    <div class="row">
+      <div class="col-md-8 offset-2">
+        <div class="mb-3">
+          <label asp-for="Name" class="form-label"></label>
+          <input asp-for="Name" class="form-control" readonly/>
+        </div>
+        <div class="mb-3">
+          <form asp-action="Delete">
+            <input type="hidden" asp-for="Id"/>
+            <button type="submit" class="btn btn-outline-danger float-end"><i class="bi bi-trash"></i> Confirm</button>
+          </form>
+          <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

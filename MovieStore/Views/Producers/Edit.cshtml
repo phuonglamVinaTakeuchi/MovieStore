@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model MovieStore.Models.ViewModels.ProducerViewModel
+@{
+  ViewData["Title"] = "Edit an producer";
+}
+
+<div class="row">
+  <div class="col-md-8 offset-2">
+    <p>
+      <h1>@ViewData["Title"]</h1>
+    </p>
+    <div class="row">
+      <div class="col-md-8 offset-2">
+        <form asp-action="Edit">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          <div class="mb-3 text-center">
+            <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
+          </div>
+          <div class="mb-3">
+            <label asp-for="ProfilePictureUrl" class="form-label"></label>
+            <input asp-for="ProfilePictureUrl" class="form-control" />
+            <span asp-validation-for="ProfilePictureUrl" class="text-danger"></span>
+          </div>
+          <div class="mb-3">
+            <label asp-for="FullName" class="form-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+          </div>
+          <div class="mb-3">
+            <label asp-for="Bio" class="form-label"></label>
+            <input asp-for="Bio" class="form-control" />
+            <span asp-validation-for="Bio" class="text-danger"></span>
+          </div>
+          <div class="mb-3">
+            <input type="submit" value="Save" class="btn btn-outline-success float-end" />
+            <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts
+{
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+
+  <script>
+    $(document).ready(function () {
+      const output = document.getElementById('ProfilePicturePreview');
+      output.src = $("#ProfilePictureUrl").val();
+    }
+    )
+    $("#ProfilePictureUrl").on("change", function () {
+      const output = document.getElementById('ProfilePicturePreview');
+      output.src = $(this).val();
+    })
+
+  </script>
+}
+
+

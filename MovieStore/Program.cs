@@ -1,4 +1,12 @@
+using MovieStore.Data.SeedData;
+using MovieStore.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.ConfigureDbContext(builder.Configuration);
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureServiceManager();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -23,5 +31,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+AppDbInitializer.Seed(app);
 
 app.Run();
